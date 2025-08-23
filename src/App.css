@@ -1,0 +1,63 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #252525;
+  --color-background: oklch(0.145 0 0);
+  --color-card: oklch(0.205 0 0);
+  --color-pri: oklch(0.708 0.222 41.116);
+  --color-border: oklch(0.439 0 0);
+  --color-secondary: oklch(0.269 0 0);
+  --color-blue: #2660a4;
+  --font-manrope-light: "manropeLight", sans-serif;
+  --font-manrope: "manrope", sans-serif;
+  --font-manrope-medium: "manropeMedium", sans-serif;
+  --font-manrope-semibold: "manropeSemibold", sans-serif;
+  --font-manrope-bold: "manropeBold", sans-serif;
+}
+
+/* Fonts */
+@font-face {
+  font-family: manropeLight;
+  src: url("assets/fonts/Kanit-Light.ttf");
+}
+@font-face {
+  font-family: manrope;
+  src: url("assets/fonts/Kanit-Regular.ttf");
+}
+@font-face {
+  font-family: manropeMedium;
+  src: url("assets/fonts/Kanit-Medium.ttf");
+}
+@font-face {
+  font-family: manropeBold;
+  src: url("assets/fonts/Kanit-Bold.ttf");
+}
+@font-face {
+  font-family: manropeSemibold;
+  src: url("assets/fonts/Kanit-SemiBold.ttf");
+}
+
+/* custom */
+/* Works on Chrome, Edge, and Safari */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* animations */
+.animate-1 {
+  animation-name: fadeslideup;
+  animation-duration: 600ms;
+}
