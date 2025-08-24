@@ -1,4 +1,4 @@
-import { Film, Star } from "lucide-react";
+import { ArrowUpRightFromSquare, Film, Star } from "lucide-react";
 import "./App.css";
 
 import Questions from "./components/questions";
@@ -28,6 +28,17 @@ function App() {
       {error && (
         <div className="absolute top-4 bg-red-600 text-white p-2">{error}</div>
       )}
+
+      {/* Disclaimer */}
+      <div className="absolute w-full bottom-0 p-2">
+        <p className="text-white text-center text-sm">
+          VaultAI is still a work in progress, we'd love for you to {""}
+          <a href="#" className="underline inline-flex gap-x-1 items-center">
+            <span>share your feedback</span>
+            <ArrowUpRightFromSquare size={12} className="text-white" />
+          </a>
+        </p>
+      </div>
     </main>
   );
 }

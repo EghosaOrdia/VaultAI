@@ -1,27 +1,21 @@
 import { motion } from "framer-motion";
 import { Sparkles, Check, MoveLeft } from "lucide-react";
 import { questions, slideUp } from "../constants/variables";
-import type { MovieFormInput } from "../constants/interfaces";
 import { useViewStore } from "../store/useViewStore";
+import { useMovieStore } from "../store/useMovieStore";
 
 type Props = {
-  movieFormData: MovieFormInput;
   changeQuestions: (dir: "next" | "previous") => void;
-  setMovieFormData: React.Dispatch<React.SetStateAction<MovieFormInput>>;
-  activeQuestionIndex: number;
 };
 
-function QuestionThree({
-  movieFormData,
-  changeQuestions,
-  setMovieFormData,
-  activeQuestionIndex,
-}: Props) {
+function QuestionThree({ changeQuestions }: Props) {
   const setSimilarity = (value: boolean) => {
     setMovieFormData((prev) => ({ ...prev, isSimilar: value }));
   };
 
   const setView = useViewStore((state) => state.setView);
+  const { activeQuestionIndex, movieFormData, setMovieFormData } =
+    useMovieStore();
   return (
     <div>
       <motion.div

@@ -1,23 +1,14 @@
 import { motion } from "framer-motion";
 import { MoveLeft, Plus, X } from "lucide-react";
 import { questions, slideUp } from "../constants/variables";
-import type { MovieFormInput } from "../constants/interfaces";
+import { useMovieStore } from "../store/useMovieStore";
 
 type Props = {
   changeQuestions: (dir: "next" | "previous") => void;
-  movieFormData: MovieFormInput;
-  setMovieFormData: React.Dispatch<React.SetStateAction<MovieFormInput>>;
   addGenre: (genre: string) => void;
-  activeQuestionIndex: number;
 };
 
-function QuestionTwo({
-  changeQuestions,
-  movieFormData,
-  setMovieFormData,
-  addGenre,
-  activeQuestionIndex,
-}: Props) {
+function QuestionTwo({ changeQuestions, addGenre }: Props) {
   const removeGenre = (genre: string) => {
     setMovieFormData((prev) => ({
       ...prev,
@@ -25,6 +16,8 @@ function QuestionTwo({
     }));
   };
 
+  const { activeQuestionIndex, movieFormData, setMovieFormData } =
+    useMovieStore();
   return (
     <div>
       <motion.div

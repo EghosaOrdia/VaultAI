@@ -1,26 +1,42 @@
 import { motion } from "framer-motion";
 import { MoveLeft, X } from "lucide-react";
-import type { MovieFormInput, movie_props } from "../constants/interfaces";
+import type { movie_props } from "../constants/interfaces";
 import { questions, slideUp } from "../constants/variables";
 import NextQuestionIndicator from "./NextQuestionIndicator";
+import { useMovieStore } from "../store/useMovieStore";
+import { useErrorStore } from "../store/useErrorStore";
 
 type Props = {
-  response: string;
-  setResponse: (val: string) => void;
   changeQuestions: (dir: "next" | "previous") => void;
-  movieFormData: MovieFormInput;
-  setMovieFormData: React.Dispatch<React.SetStateAction<MovieFormInput>>;
-  activeQuestionIndex: number;
 };
 
-function QuestionOne({
-  response,
-  setResponse,
-  changeQuestions,
-  movieFormData,
-  setMovieFormData,
-  activeQuestionIndex,
-}: Props) {
+function QuestionOne({ changeQuestions }: Props) {
+  const {
+    activeQuestionIndex,
+    response,
+    setResponse,
+    movieFormData,
+    setMovieFormData,
+    movie_d,
+    queryDetails,
+    setQueryDetails,
+  } = useMovieStore();
+  const { setError } = useErrorStore();
+
+  const addFavourite = (movie: movie_props) => {
+    if (movieFormData.favourites.find((fav) => fav.id === movie.id)) {
+      setError("Movie already in favourites.");
+      return;
+    }
+
+    setMovieFormData((prev) => ({
+      ...prev,
+      favourites: [...prev.favourites, movie],
+    }));
+    setResponse("");
+    setQueryDetails(false);
+  };
+
   const removeFavourite = (movie: movie_props) => {
     setMovieFormData((prev) => ({
       ...prev,
@@ -106,6 +122,23 @@ function QuestionOne({
           ))}
         </div>
       )}
+
+      {/* Floating Elements */}
+      {queryDetails && (
+        <div className="absolute top-full bg-card border border-border/50 w-full h-40 rounded-xl flex flex-col custom-scrollbar overflow-y-scroll z-10">
+          {movie_d.map((movie) => (
+            <div
+              key={movie.id}
+              onClick={() => addFavourite(movie)}
+              className="flex flex-col p-4 cursor-pointer hover:bg-primary"
+            >
+              <h2 className="font-manrope-medium text-lg">{movie.title}</h2>
+              <p className="text-sm">{movie.vote_average}/10</p>
+            </div>
+          ))}
+        </div>
+      )}
+      {/* End of Floating Elements */}
     </div>
   );
 }
