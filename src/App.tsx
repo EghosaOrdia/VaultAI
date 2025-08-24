@@ -4,9 +4,11 @@ import "./App.css";
 import Questions from "./components/questions";
 import GeneratedMovies from "./components/generatedMovies";
 import { useViewStore } from "./store/useViewStore";
+import { useErrorStore } from "./store/useErrorStore";
 
 function App() {
   const view = useViewStore((state) => state.view);
+  const { error } = useErrorStore();
 
   return (
     <main className="relative min-h-dvh bg-primary text-white flex justify-center font-manrope-light">
@@ -21,6 +23,11 @@ function App() {
 
       {view === "questions" && <Questions />}
       {view === "generated" && <GeneratedMovies />}
+
+      {/* Error Messages Alert */}
+      {error && (
+        <div className="absolute top-4 bg-red-600 text-white p-2">{error}</div>
+      )}
     </main>
   );
 }

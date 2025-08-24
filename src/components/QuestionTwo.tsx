@@ -1,10 +1,9 @@
-import { motion, type Variants } from "framer-motion";
+import { motion } from "framer-motion";
 import { MoveLeft, Plus, X } from "lucide-react";
-import { questions } from "../constants/variables";
+import { questions, slideUp } from "../constants/variables";
 import type { MovieFormInput } from "../constants/interfaces";
 
 type Props = {
-  slideUp: Variants;
   changeQuestions: (dir: "next" | "previous") => void;
   movieFormData: MovieFormInput;
   setMovieFormData: React.Dispatch<React.SetStateAction<MovieFormInput>>;
@@ -13,7 +12,6 @@ type Props = {
 };
 
 function QuestionTwo({
-  slideUp,
   changeQuestions,
   movieFormData,
   setMovieFormData,

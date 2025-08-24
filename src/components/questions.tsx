@@ -1,50 +1,31 @@
-import { useEffect, useState } from "react";
-
+import { useEffect } from "react";
 import { ArrowUpRightFromSquare, ArrowRight } from "lucide-react";
-import { type Variants } from "framer-motion";
 
 import { movies, questions } from "../constants/variables";
-import type { MovieFormInput, movie_props } from "../constants/interfaces";
+import type { movie_props } from "../constants/interfaces";
 import QuestionOne from "./QuestionOne";
 import QuestionTwo from "./QuestionTwo";
 import QuestionThree from "./QuestionThree";
-
-const slideUp: Variants = {
-  hidden: { y: 40, opacity: 0 },
-  visible: (i: number) => ({
-    y: 0,
-    opacity: 1,
-    transition: {
-      delay: i * 0.2,
-      duration: 0.6,
-      ease: "easeOut",
-    },
-  }),
-};
+import { useMovieStore } from "../store/useMovieStore";
+import { useErrorStore } from "../store/useErrorStore";
 
 const Questions = () => {
-  const [activeQuestionIndex, setActiveQuestionIndex] = useState(0);
-  const [response, setResponse] = useState("");
-  const [queryDetails, setQueryDetails] = useState(false);
-  const [error, setError] = useState("");
-  const [movie_d, setMovie_d] = useState<movie_props[]>([]);
-  const [movieFormData, setMovieFormData] = useState<MovieFormInput>({
-    favourites: [],
-    fav_genres: [],
-    fav_actor: "",
-    fav_director: "",
-    isSimilar: false,
-  });
-
-  const handleError = (message: string) => {
-    setError(message);
-    setTimeout(() => {
-      setError("");
-    }, 3000);
-  };
+  const {
+    activeQuestionIndex,
+    setActiveQuestionIndex,
+    response,
+    setResponse,
+    queryDetails,
+    setQueryDetails,
+    movie_d,
+    setMovie_d,
+    movieFormData,
+    setMovieFormData,
+  } = useMovieStore();
+  const { setError } = useErrorStore();
 
   const changeQuestions = (direction: "next" | "previous") => {
-    setActiveQuestionIndex((prev) =>
+    setActiveQuestionIndex((prev: number) =>
       direction === "next"
         ? Math.min(prev + 1, questions.length - 1)
         : Math.max(prev - 1, 0)
@@ -53,7 +34,7 @@ const Questions = () => {
 
   const addFavourite = (movie: movie_props) => {
     if (movieFormData.favourites.find((fav) => fav.id === movie.id)) {
-      handleError("Movie already in favourites.");
+      setError("Movie already in favourites.");
       return;
     }
 
@@ -67,7 +48,7 @@ const Questions = () => {
 
   const addGenre = (genre: string) => {
     if (movieFormData.fav_genres.includes(genre)) {
-      handleError("Genre already added.");
+      setError("Genre already added.");
       return;
     }
     setMovieFormData((prev) => ({
@@ -98,7 +79,7 @@ const Questions = () => {
     }
 
     if (response.trim() === "") {
-      handleError("Please enter a movie before proceeding.");
+      setError("Please enter a movie before proceeding.");
       return;
     }
 
@@ -132,7 +113,6 @@ const Questions = () => {
       <div className="relative my-auto w-3/5">
         {activeQuestionIndex === 0 && (
           <QuestionOne
-            slideUp={slideUp}
             response={response}
             setResponse={setResponse}
             changeQuestions={changeQuestions}
@@ -144,7 +124,6 @@ const Questions = () => {
 
         {activeQuestionIndex === 1 && (
           <QuestionTwo
-            slideUp={slideUp}
             changeQuestions={changeQuestions}
             movieFormData={movieFormData}
             setMovieFormData={setMovieFormData}
@@ -155,7 +134,6 @@ const Questions = () => {
 
         {activeQuestionIndex === 2 && (
           <QuestionThree
-            slideUp={slideUp}
             changeQuestions={changeQuestions}
             movieFormData={movieFormData}
             setMovieFormData={setMovieFormData}
@@ -199,11 +177,6 @@ const Questions = () => {
         )}
         {/* End of Floating Elements */}
       </div>
-
-      {/* Error Messages Alert */}
-      {error && (
-        <div className="absolute top-4 bg-red-600 text-white p-2">{error}</div>
-      )}
 
       {/* Disclaimer */}
       <div className="absolute w-full bottom-0 p-2">

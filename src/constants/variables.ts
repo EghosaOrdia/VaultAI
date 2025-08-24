@@ -1,3 +1,5 @@
+import type { Variants } from "framer-motion";
+
 export const questions = [
   {
     id: 1,
@@ -68,4 +70,17 @@ export const movies = {
       release_date: "2021-09-24",
     },
   ],
+};
+
+export const slideUp: Variants = {
+  hidden: { y: 40, opacity: 0 },
+  visible: (i: number) => ({
+    y: 0,
+    opacity: 1,
+    transition: {
+      delay: i * 0.2,
+      duration: 0.6,
+      ease: "easeOut",
+    },
+  }),
 };
