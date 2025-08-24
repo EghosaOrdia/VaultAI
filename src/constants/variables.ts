@@ -46,6 +46,8 @@ export const movies = {
       overview:
         "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.",
       vote_average: 8.8,
+      poster_path: "/xjdjvbjduej",
+      release_date: "2025-08-24",
     },
     {
       id: 2,
@@ -53,6 +55,17 @@ export const movies = {
       overview:
         "When the menace known as the Joker emerges from his mysterious past, he wreaks havoc and chaos on the people of Gotham. The Dark Knight must accept one of the greatest psychological and physical tests of his ability to fight injustice.",
       vote_average: 9.0,
+      poster_path: "/xjdjvbjduej",
+      release_date: "2025-09-24",
+    },
+    {
+      id: 3,
+      title: "Dune",
+      overview:
+        "Paul Atreides leads nomadic tribes in a revolt against the evil Harkonnen oppressors.",
+      vote_average: 8.1,
+      poster_path: "/xjdjvbjduej",
+      release_date: "2021-09-24",
     },
   ],
 };

@@ -2,6 +2,7 @@ import { motion, type Variants } from "framer-motion";
 import { Sparkles, Check, MoveLeft } from "lucide-react";
 import { questions } from "../constants/variables";
 import type { MovieFormInput } from "../constants/interfaces";
+import { useViewStore } from "../store/useViewStore";
 
 type Props = {
   slideUp: Variants;
@@ -22,6 +23,7 @@ function QuestionThree({
     setMovieFormData((prev) => ({ ...prev, isSimilar: value }));
   };
 
+  const setView = useViewStore((state) => state.setView);
   return (
     <div>
       <motion.div
@@ -94,7 +96,10 @@ function QuestionThree({
         custom={4}
         className="mt-8 flex justify-center"
       >
-        <button className="flex gap-x-2 items-center bg-black text-white px-8 py-3 text-lg rounded-full font-manrope-medium">
+        <button
+          onClick={() => setView("generated")}
+          className="flex gap-x-2 items-center bg-black text-white px-8 py-3 text-lg rounded-full font-manrope-medium"
+        >
           <Sparkles />
           Generate movies for me
         </button>

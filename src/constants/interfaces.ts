@@ -3,6 +3,8 @@ export interface movie_props {
   title: string;
   overview: string;
   vote_average: number;
+  poster_path: string;
+  release_date: string;
 }
 
 export interface MovieFormInput {
