@@ -98,7 +98,13 @@ function QuestionThree({
       >
         <button
           onClick={() => setView("generated")}
-          className="flex gap-x-2 items-center bg-black text-white px-8 py-3 text-lg rounded-full font-manrope-medium"
+          className="flex gap-x-2 items-center 
+             px-8 py-3 text-lg rounded-full 
+             font-manrope-medium text-white 
+             bg-gradient-to-r from-pri/50 via-pri/85 to-pri 
+             shadow-[0_0_20px_#ff5722] 
+             hover:shadow-[0_0_40px_#ff5722] 
+             transition-all duration-300 cursor-pointer"
         >
           <Sparkles />
           Generate movies for me
