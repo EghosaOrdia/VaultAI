@@ -24,7 +24,6 @@ function App() {
       {view === "questions" && <Questions />}
       {view === "generated" && <GeneratedMovies />}
 
-      {/* Error Messages Alert */}
       {error && (
         <div className="absolute top-4 bg-red-600 text-white p-2">{error}</div>
       )}
