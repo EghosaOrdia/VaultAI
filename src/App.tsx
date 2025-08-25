@@ -1,8 +1,8 @@
 import { ArrowUpRightFromSquare, Film, Star } from "lucide-react";
 import "./App.css";
 
-import Questions from "./components/questions";
-import GeneratedMovies from "./components/generatedMovies";
+import Questions from "./components/Questions";
+import GeneratedMovies from "./components/GeneratedMovies";
 import { useViewStore } from "./store/useViewStore";
 import { useErrorStore } from "./store/useErrorStore";
 
@@ -13,6 +13,7 @@ function App() {
   return (
     <main className="relative min-h-dvh bg-primary text-white flex justify-center font-manrope-light">
       <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-card opacity-80" />
+
       {/* Decorative elements */}
       <div className="absolute top-20 left-10 opacity-10">
         <Film size={120} className="text-pri" />

@@ -4,6 +4,7 @@ import { MoveLeft, Sparkles, Star } from "lucide-react";
 import { parseDate } from "../services/functions";
 import { motion, type Variants } from "framer-motion";
 import { useViewStore } from "../store/useViewStore";
+import { useMovieStore } from "../store/useMovieStore";
 
 const slideUp: Variants = {
   hidden: { y: 40, opacity: 0 },
@@ -20,6 +21,7 @@ const slideUp: Variants = {
 
 const GeneratedMovies: React.FC = () => {
   const setView = useViewStore((state) => state.setView);
+  const { movieFormData } = useMovieStore();
 
   return (
     <div className="relative mt-8 py-8 px-16">
@@ -65,15 +67,23 @@ const GeneratedMovies: React.FC = () => {
           className="mt-2"
         >
           Based on your preferences for{" "}
-          <span className="text-pri hover:underline cursor-pointer">
-            The Dark Knight
-          </span>
-          ,{" "}
-          <span className="text-pri hover:underline cursor-pointer">
-            The Shawshank Redemption
-          </span>{" "}
+          {movieFormData.favourites.map((movie) => (
+            <span
+              key={movie.id}
+              className="text-pri hover:underline cursor-pointer"
+            >
+              {movie.title},{" "}
+            </span>
+          ))}
           and{" "}
-          <span className="text-pri hover:underline cursor-pointer">Drama</span>{" "}
+          {movieFormData.fav_genres.map((genre, index) => (
+            <span
+              key={index}
+              className="text-pri hover:underline cursor-pointer"
+            >
+              {genre}, {""}
+            </span>
+          ))}
           genres
         </motion.p>
       </div>

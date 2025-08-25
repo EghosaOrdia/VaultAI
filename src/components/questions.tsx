@@ -16,7 +16,6 @@ const Questions = () => {
     setQueryDetails,
     setMovie_d,
     movieFormData,
-    setMovieFormData,
   } = useMovieStore();
   const { setError } = useErrorStore();
 
@@ -26,17 +25,6 @@ const Questions = () => {
         ? Math.min(prev + 1, questions.length - 1)
         : Math.max(prev - 1, 0)
     );
-  };
-
-  const addGenre = (genre: string) => {
-    if (movieFormData.fav_genres.includes(genre)) {
-      setError("Genre already added.");
-      return;
-    }
-    setMovieFormData((prev) => ({
-      ...prev,
-      fav_genres: [...prev.fav_genres, genre],
-    }));
   };
 
   // Searches TMDB API
@@ -93,17 +81,11 @@ const Questions = () => {
   return (
     <>
       <div className="relative my-auto w-3/5">
-        {activeQuestionIndex === 0 && (
-          <QuestionOne changeQuestions={changeQuestions} />
-        )}
+        {activeQuestionIndex === 0 && <QuestionOne />}
 
-        {activeQuestionIndex === 1 && (
-          <QuestionTwo changeQuestions={changeQuestions} addGenre={addGenre} />
-        )}
+        {activeQuestionIndex === 1 && <QuestionTwo />}
 
-        {activeQuestionIndex === 2 && (
-          <QuestionThree changeQuestions={changeQuestions} />
-        )}
+        {activeQuestionIndex === 2 && <QuestionThree />}
 
         {/* Navigation */}
         <div className="flex justify-between items-center mt-8">

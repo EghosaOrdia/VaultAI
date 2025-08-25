@@ -6,11 +6,7 @@ import NextQuestionIndicator from "./NextQuestionIndicator";
 import { useMovieStore } from "../store/useMovieStore";
 import { useErrorStore } from "../store/useErrorStore";
 
-type Props = {
-  changeQuestions: (dir: "next" | "previous") => void;
-};
-
-function QuestionOne({ changeQuestions }: Props) {
+function QuestionOne() {
   const {
     activeQuestionIndex,
     response,
@@ -51,7 +47,6 @@ function QuestionOne({ changeQuestions }: Props) {
         initial="hidden"
         animate="visible"
         custom={0}
-        onClick={() => changeQuestions("previous")}
         className="flex flex-row justify-between items-center mb-12"
       >
         <button

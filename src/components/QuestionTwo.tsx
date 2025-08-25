@@ -2,13 +2,28 @@ import { motion } from "framer-motion";
 import { MoveLeft, Plus, X } from "lucide-react";
 import { questions, slideUp } from "../constants/variables";
 import { useMovieStore } from "../store/useMovieStore";
+import { useErrorStore } from "../store/useErrorStore";
 
-type Props = {
-  changeQuestions: (dir: "next" | "previous") => void;
-  addGenre: (genre: string) => void;
-};
+function QuestionTwo() {
+  const { setError } = useErrorStore();
+  const {
+    activeQuestionIndex,
+    movieFormData,
+    setMovieFormData,
+    setActiveQuestionIndex,
+  } = useMovieStore();
 
-function QuestionTwo({ changeQuestions, addGenre }: Props) {
+  const addGenre = (genre: string) => {
+    if (movieFormData.fav_genres.includes(genre)) {
+      setError("Genre already added.");
+      return;
+    }
+    setMovieFormData((prev) => ({
+      ...prev,
+      fav_genres: [...prev.fav_genres, genre],
+    }));
+  };
+
   const removeGenre = (genre: string) => {
     setMovieFormData((prev) => ({
       ...prev,
@@ -16,8 +31,6 @@ function QuestionTwo({ changeQuestions, addGenre }: Props) {
     }));
   };
 
-  const { activeQuestionIndex, movieFormData, setMovieFormData } =
-    useMovieStore();
   return (
     <div>
       <motion.div
@@ -25,10 +38,12 @@ function QuestionTwo({ changeQuestions, addGenre }: Props) {
         initial="hidden"
         animate="visible"
         custom={0}
-        onClick={() => changeQuestions("previous")}
         className="flex flex-row justify-between items-center mb-12"
       >
-        <button className="flex flex-row gap-x-4 items-center py-2 px-2 rounded-md hover:bg-pri hover:text-white duration-300 transition-all cursor-pointer">
+        <button
+          onClick={() => setActiveQuestionIndex(activeQuestionIndex - 1)}
+          className="flex flex-row gap-x-4 items-center py-2 px-2 rounded-md hover:bg-pri hover:text-white duration-300 transition-all cursor-pointer"
+        >
           <MoveLeft />
           <span>back</span>
         </button>

@@ -4,18 +4,18 @@ import { questions, slideUp } from "../constants/variables";
 import { useViewStore } from "../store/useViewStore";
 import { useMovieStore } from "../store/useMovieStore";
 
-type Props = {
-  changeQuestions: (dir: "next" | "previous") => void;
-};
+function QuestionThree() {
+  const setView = useViewStore((state) => state.setView);
+  const {
+    activeQuestionIndex,
+    movieFormData,
+    setMovieFormData,
+    setActiveQuestionIndex,
+  } = useMovieStore();
 
-function QuestionThree({ changeQuestions }: Props) {
   const setSimilarity = (value: boolean) => {
     setMovieFormData((prev) => ({ ...prev, isSimilar: value }));
   };
-
-  const setView = useViewStore((state) => state.setView);
-  const { activeQuestionIndex, movieFormData, setMovieFormData } =
-    useMovieStore();
   return (
     <div>
       <motion.div
@@ -23,10 +23,12 @@ function QuestionThree({ changeQuestions }: Props) {
         initial="hidden"
         animate="visible"
         custom={0}
-        onClick={() => changeQuestions("previous")}
         className="flex flex-row justify-between items-center mb-12"
       >
-        <button className="flex flex-row gap-x-4 items-center py-2 px-2 rounded-md hover:bg-pri hover:text-white duration-300 transition-all cursor-pointer">
+        <button
+          onClick={() => setActiveQuestionIndex(activeQuestionIndex - 1)}
+          className="flex flex-row gap-x-4 items-center py-2 px-2 rounded-md hover:bg-pri hover:text-white duration-300 transition-all cursor-pointer"
+        >
           <MoveLeft />
           <span>back</span>
         </button>
