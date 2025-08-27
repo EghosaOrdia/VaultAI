@@ -7,6 +7,9 @@ import QuestionTwo from "./QuestionTwo";
 import QuestionThree from "./QuestionThree";
 import { useMovieStore } from "../store/useMovieStore";
 import { useErrorStore } from "../store/useErrorStore";
+import { useViewStore } from "../store/useViewStore";
+
+type StepHandler = (direction: "next" | "previous") => Promise<void>;
 
 const Questions = () => {
   const {
@@ -18,13 +21,53 @@ const Questions = () => {
     movieFormData,
   } = useMovieStore();
   const { setError } = useErrorStore();
+  const { setView } = useViewStore();
 
-  const changeQuestions = (direction: "next" | "previous") => {
-    setActiveQuestionIndex((prev: number) =>
+  const navigate = (direction: "next" | "previous") => {
+    setActiveQuestionIndex((prev) =>
       direction === "next"
         ? Math.min(prev + 1, questions.length - 1)
         : Math.max(prev - 1, 0)
     );
+  };
+
+  const stepHandlers: StepHandler[] = [
+    async (direction) => {
+      if (movieFormData.favourites.length >= 1 && response.trim() === "") {
+        navigate(direction);
+        return;
+      }
+
+      if (response.trim() === "") {
+        setError("Please enter a movie before proceeding.");
+        return;
+      }
+
+      await handleSearch(response);
+      setQueryDetails(true);
+    },
+
+    async (direction) => {
+      if (movieFormData.fav_genres.length >= 1) {
+        navigate(direction);
+      } else {
+        setError("Please select at least one movie genre before proceeding.");
+      }
+    },
+
+    async (_direction) => {
+      navigate(_direction);
+    },
+  ];
+
+  const changeQuestions = async (direction: "next" | "previous") => {
+    const handler = stepHandlers[activeQuestionIndex];
+
+    if (handler) {
+      await handler(direction);
+    } else {
+      console.warn("No handler for step", activeQuestionIndex);
+    }
   };
 
   // Searches TMDB API
@@ -37,30 +80,11 @@ const Questions = () => {
     }
   };
 
-  // handles and validates the submission of each question
-  const handleSubmit = (
-    event?: KeyboardEvent | React.MouseEvent<HTMLButtonElement>
-  ) => {
-    if (event && "key" in event && event.key !== "Enter") return;
-
-    if (movieFormData.favourites.length >= 1 && response.trim() === "") {
-      changeQuestions("next");
-      return;
-    }
-
-    if (response.trim() === "") {
-      setError("Please enter a movie before proceeding.");
-      return;
-    }
-
-    handleSearch(response);
-    setQueryDetails(true);
-  };
-
   // handles keypress events for submission
   useEffect(() => {
-    const handleKeyPress = (event: KeyboardEvent) => {
-      handleSubmit(event);
+    const handleKeyPress = async (event: KeyboardEvent) => {
+      if (event.key !== "Enter") return;
+      await changeQuestions("next");
     };
 
     window.addEventListener("keydown", handleKeyPress);
@@ -68,7 +92,7 @@ const Questions = () => {
     return () => {
       window.removeEventListener("keydown", handleKeyPress);
     };
-  }, [response, movieFormData.favourites]);
+  }, [response, movieFormData, activeQuestionIndex]);
 
   // resets movie details when the response is cleared
   useEffect(() => {
@@ -98,8 +122,10 @@ const Questions = () => {
           </button>
 
           <button
-            onClick={handleSubmit}
-            className="bg-pri rounded-md py-1 px-4 transition-all duration-300 font-manrope-light text-black cursor-pointer flex gap-x-2 items-center"
+            onClick={() => changeQuestions("next")}
+            className={`${
+              activeQuestionIndex === 2 ? "bg-[#555]" : "bg-pri"
+            } rounded-md py-1 px-4 transition-all duration-300 font-manrope-light text-black cursor-pointer flex gap-x-2 items-center`}
           >
             Continue
             <ArrowRight size={18} />
@@ -111,3 +137,5 @@ const Questions = () => {
 };
 
 export default Questions;
+
+// fix length of fav_genre because you're not saving it properly

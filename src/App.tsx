@@ -26,7 +26,9 @@ function App() {
       {view === "generated" && <GeneratedMovies />}
 
       {error && (
-        <div className="absolute top-4 bg-red-600 text-white p-2">{error}</div>
+        <div className="absolute top-4 bg-red-500 text-red-100 px-4 py-2 font-manrope">
+          {error}
+        </div>
       )}
 
       {/* Disclaimer */}
